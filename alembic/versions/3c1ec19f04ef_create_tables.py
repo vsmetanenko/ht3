@@ -46,7 +46,8 @@ def upgrade() -> None:
     sa.Column('name', sa.String(length=150), nullable=False),
     sa.Column('teacher_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['teacher_id'], ['teachers.id'], ondelete='SET NULL'),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('name', 'teacher_id', name='uq_subject_teacher')
     )
     op.create_table('grades',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -54,6 +55,7 @@ def upgrade() -> None:
     sa.Column('subject_id', sa.Integer(), nullable=False),
     sa.Column('grade', sa.Float(), nullable=False),
     sa.Column('date_received', sa.Date(), nullable=False),
+    sa.CheckConstraint('grade >= 10.0 AND grade <= 20.0', name='check_grade_range'),
     sa.ForeignKeyConstraint(['student_id'], ['students.id'], ondelete='CASCADE'),
     sa.ForeignKeyConstraint(['subject_id'], ['subjects.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')

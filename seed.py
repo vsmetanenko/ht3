@@ -73,7 +73,7 @@ def seed():
             num_grades = fake.random_int(min=MIN_GRADES, max=MAX_GRADES)
             for _ in range(num_grades):
                 subject = random.choice(subjects)
-                grade_value = fake.random_int(min=60, max=100)
+                grade_value = fake.random_int(min=10, max=20)
                 received = fake.date_between(start_date=date(2025, 10, 1), end_date='today')
                 grade = Grade(
                     student_id=student.id,
